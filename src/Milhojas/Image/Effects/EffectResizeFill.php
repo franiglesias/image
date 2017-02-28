@@ -1,37 +1,45 @@
 <?php
 
-use Milhojas\Image\services\ImageCanvasService;
-use Milhojas\Image\services\ImageCropService;
+namespace Milhojas\Image\Effects;
 
+use Milhojas\Image\Services\CanvasService;
+use Milhojas\Image\Services\CropService;
+use Milhojas\Image\Values\Size;
+use Milhojas\Image\Interfaces\ImageInterface;
+use Milhojas\Image\Values\Coordinates;
+
+/**
+ * Resize an image to a given target size scaling proportionally and filling it completely.
+ */
 class EffectResizeFill extends AbstractEffect
 {
     protected $Cropper;
+    protected $TargetSize;
 
-    public function __construct(ImageInterface $Image, ImageSize $NewSize)
+    public function __construct(Size $NewSize)
     {
-        $this->Image = $Image;
         $this->TargetSize = $NewSize;
-        $CanvasService = new ImageCanvasService();
-        $this->Canvas = $CanvasService->get($this->size()->fill($NewSize));
-        $From = new FiCoordinates(
+    }
+
+    public function apply(ImageInterface $image)
+    {
+        $CanvasService = new CanvasService();
+        $this->Canvas = $CanvasService->get($image->size()->fill($this->TargetSize));
+        $From = new Coordinates(
             ($this->Canvas->width() - $this->TargetSize->width()) / 2,
             ($this->Canvas->height() - $this->TargetSize->height()) / 2
         );
-        $this->Cropper = new ImageCropService($From, $this->TargetSize);
-    }
-
-    public function apply()
-    {
+        $this->Cropper = new CropService($From, $this->TargetSize);
         imagecopyresampled(
             $this->Canvas->get(),
-            $this->Image->get(),
+            $image->get(),
             0, 0, 0, 0,
             $this->Canvas->width(),
             $this->Canvas->height(),
-            $this->size()->width(),
-            $this->size()->height()
+            $image->size()->width(),
+            $image->size()->height()
         );
         $result = $this->Cropper->crop($this->Canvas->get());
-        $this->Image->set($result->get());
+        $image->set($result->get());
     }
 }

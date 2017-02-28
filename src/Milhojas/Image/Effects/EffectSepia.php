@@ -1,16 +1,24 @@
 <?php
 
-use Milhojas\Image\effects\ImageColorize;
+namespace Milhojas\Image\Effects;
+
+use Milhojas\Image\Values\Color;
+use Milhojas\Image\Interfaces\ImageInterface;
 
 /**
  * Old sepia effect, derived from colorize.
  *
  * @author Fran Iglesias
  */
-class EffectSepia extends ImageColorize
+class EffectSepia extends EffectColorize
 {
-    public function __construct(ImageInterface $Image, $intensity = 50)
+    public function __construct($intensity = 50)
     {
-        parent::__construct($Image, new ImageColor('8f633f'), $intensity);
+        parent::__construct(new Color('8f633f'), $intensity);
+    }
+
+    public function apply(ImageInterface $image)
+    {
+        return parent::apply($image);
     }
 }

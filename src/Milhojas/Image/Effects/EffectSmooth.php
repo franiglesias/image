@@ -1,6 +1,7 @@
 <?php
 
-use Milhojas\Image\Effects\AbstractEffect;
+namespace Milhojas\Image\Effects;
+
 use Milhojas\Image\Interfaces\ImageInterface;
 
 /**
@@ -10,16 +11,15 @@ use Milhojas\Image\Interfaces\ImageInterface;
  */
 class EffectSmooth extends AbstractEffect
 {
-    public function __construct(ImageInterface $Image, $intensity = 30)
+    public function __construct($intensity = 30)
     {
-        $this->Image = $Image;
         $this->maxIntensity = 10;
         $this->intensity = $this->normalize($intensity);
     }
 
-    public function apply()
+    public function apply(ImageInterface $image)
     {
-        imagefilter($this->Image->get(), IMG_FILTER_SMOOTH, $this->intensity);
-        imagefilter($this->Image->get(), IMG_FILTER_GAUSSIAN_BLUR);
+        imagefilter($image->get(), IMG_FILTER_SMOOTH, $this->intensity);
+        imagefilter($image->get(), IMG_FILTER_GAUSSIAN_BLUR);
     }
 }

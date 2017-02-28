@@ -16,7 +16,7 @@ class Text
         $this->text = $text;
         $this->fontSize = $fontSize;
         $this->pad = $pad;
-        $this->Color = new ImageColor($color);
+        $this->Color = new Color($color);
         $this->font = $font;
         $this->Size = $this->computeSize();
     }
@@ -25,7 +25,7 @@ class Text
     {
         $theBox = imageftbbox($this->fontSize, 0, $this->font, $this->text);
 
-        return new ImageSize(
+        return new Size(
             ($this->pad * 2) + $theBox[0] - $theBox[2],
             ($this->pad * 2) + $theBox[3] - $theBox[5]
         );

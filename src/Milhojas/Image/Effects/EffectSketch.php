@@ -1,6 +1,7 @@
 <?php
 
-use Milhojas\Image\Effects\AbstractEffect;
+namespace Milhojas\Image\Effects;
+
 use Milhojas\Image\Interfaces\ImageInterface;
 
 /**
@@ -10,14 +11,14 @@ use Milhojas\Image\Interfaces\ImageInterface;
  */
 class EffectSketch extends AbstractEffect
 {
-    public function __construct(ImageInterface $Image)
+    public function __construct()
     {
-        $this->Image = $Image;
         $this->intensity = 50;
     }
 
-    public function apply()
+    public function apply(ImageInterface $Image)
     {
+        $this->Image = $Image;
         $this->sketch();
         $this->smooth();
     }

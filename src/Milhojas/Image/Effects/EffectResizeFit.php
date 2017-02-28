@@ -1,36 +1,37 @@
 <?php
 
-use Milhojas\Image\effects\ImageResizeScale;
-use Milhojas\Image\services\ImageResizeService;
-use Milhojas\Image\services\ImageCanvasServices;
+namespace Milhojas\Image\Effects;
 
-class ImageResizeFit extends AbstractEffect
+use Milhojas\Image\Services\CanvasService;
+use Milhojas\Image\Values\Size;
+use Milhojas\Image\Interfaces\ImageInterface;
+
+/**
+ * Resizes an image proportionally to fit in the target size.
+ */
+class EffectResizeFit extends AbstractEffect
 {
-	function __construct(ImageInterface $Image, ImageSize $NewSize)
-	{
-		$this->Image = $Image;
-		$this->TargetSize = $NewSize;
-		// $Resizer = new ImageResizeService($this->size(), $this->TargetSize);
-		$CanvasService = new ImageCanvasService();
-		$this->Canvas = $CanvasService->get($this->size()->fit($NewSize));
-	}
-	
-	public function apply()
-	{
-		imagecopyresampled(
-			$this->Canvas->get(), 
-			$this->Image->get(), 
-			0, 0, 0, 0, 
-			$this->Canvas->width(), 
-			$this->Canvas->height(), 
-			$this->Image->size()->width(), 
-			$this->Image->size()->height()
-		);
-		$this->Image->set($this->Canvas->get());
-	}
-		
+    private $TargetSize;
+
+    public function __construct(Size $NewSize)
+    {
+        $this->TargetSize = $NewSize;
+    }
+
+    public function apply(ImageInterface $image)
+    {
+        $CanvasService = new CanvasService();
+        $this->Canvas = $CanvasService->get($image->size()->fit($this->TargetSize));
+
+        imagecopyresampled(
+            $this->Canvas->get(),
+            $image->get(),
+            0, 0, 0, 0,
+            $this->Canvas->width(),
+            $this->Canvas->height(),
+            $image->size()->width(),
+            $image->size()->height()
+        );
+        $image->set($this->Canvas->get());
+    }
 }
-
-
-
-?>

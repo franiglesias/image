@@ -1,24 +1,29 @@
 <?php
 
-use Milhojas\Image\Effects\AbstractEffect;
+namespace Milhojas\Image\Effects;
 
+use Milhojas\Image\Interfaces\ImageInterface;
+use Milhojas\Image\Values\Color;
+
+/**
+ * Rotates an image.
+ */
 class EffectRotate extends AbstractEffect
 {
     protected $degrees;
 
-    public function __construct(ImageInterface $Image, $degrees)
+    public function __construct($degrees)
     {
-        $this->Image = $Image;
         $this->degrees = $degrees;
     }
 
-    public function apply()
+    public function apply(ImageInterface $image)
     {
-        $Transparent = new ImageColor('000', 0);
-        $tmp = imagerotate($this->Image->get(), $this->degrees, $Transparent->get(), 0);
-        imagedestroy($this->Image->get());
-        $this->Image->set($tmp);
-        imagealphablending($this->Image->get(), false);
-        imagesavealpha($this->Image->get(), true);
+        $Transparent = new Color('000', 0);
+        $tmp = imagerotate($image->get(), $this->degrees, $Transparent->get(), 0);
+        imagedestroy($image->get());
+        $image->set($tmp);
+        imagealphablending($image->get(), false);
+        imagesavealpha($image->get(), true);
     }
 }
