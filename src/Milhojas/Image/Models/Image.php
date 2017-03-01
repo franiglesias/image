@@ -5,6 +5,7 @@ namespace Milhojas\Image\Models;
 use Milhojas\Image\Interfaces\ImageInterface;
 use Milhojas\Image\Values\Canvas;
 use Milhojas\Image\Values\Size;
+use Milhojas\Image\Effects\Effect;
 
 class Image implements ImageInterface
 {
@@ -49,8 +50,9 @@ class Image implements ImageInterface
         return $this->Size;
     }
 
-    public function apply()
+    public function apply(Effect $effect)
     {
+        $effect->apply($this);
     }
 
     public function read()

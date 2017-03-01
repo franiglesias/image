@@ -16,7 +16,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectColorize extends AbstractEffect
+class EffectColorize extends Effect
 {
     protected $Color;
     protected $Canvas;

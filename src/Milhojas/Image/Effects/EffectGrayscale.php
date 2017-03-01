@@ -9,7 +9,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectGrayscale extends AbstractEffect
+class EffectGrayscale extends Effect
 {
     public function __construct()
     {

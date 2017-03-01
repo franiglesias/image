@@ -14,7 +14,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectSignature extends AbstractEffect
+class EffectSignature extends Effect
 {
     protected $Text;
     protected $Color;

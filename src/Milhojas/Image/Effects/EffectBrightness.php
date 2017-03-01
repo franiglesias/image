@@ -9,7 +9,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectBrightness extends AbstractEffect
+class EffectBrightness extends Effect
 {
     public function __construct($intensity = 20)
     {

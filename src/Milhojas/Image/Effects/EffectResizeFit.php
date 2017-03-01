@@ -9,7 +9,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
 /**
  * Resizes an image proportionally to fit in the target size.
  */
-class EffectResizeFit extends AbstractEffect
+class EffectResizeFit extends Effect
 {
     private $TargetSize;
 

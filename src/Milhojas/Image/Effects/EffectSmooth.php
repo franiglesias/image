@@ -9,7 +9,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectSmooth extends AbstractEffect
+class EffectSmooth extends Effect
 {
     public function __construct($intensity = 30)
     {

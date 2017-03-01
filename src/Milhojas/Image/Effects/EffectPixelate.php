@@ -10,7 +10,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectPixelate extends AbstractEffect
+class EffectPixelate extends Effect
 {
     protected $Canvas;
     public function __construct($intensity = 50, $module = 4)

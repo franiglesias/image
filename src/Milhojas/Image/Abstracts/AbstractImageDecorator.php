@@ -3,6 +3,7 @@
 namespace Milhojas\Image\Abstracts;
 
 use Milhojas\Image\Interfaces\ImageInterface;
+use Milhojas\Image\Effects\Effect;
 
 abstract class AbstractImageDecorator implements ImageInterface
 {
@@ -28,9 +29,9 @@ abstract class AbstractImageDecorator implements ImageInterface
         $this->Image->set($newResource);
     }
 
-    public function apply()
+    public function apply(Effect $effect)
     {
-        $this->Image->apply();
+        $this->Image->apply($effect);
     }
 
     public function read()

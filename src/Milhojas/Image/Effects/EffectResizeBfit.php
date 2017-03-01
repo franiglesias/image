@@ -10,7 +10,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
 /**
  * Resize image to fit in a target Size keeping aspect ratio and background if needed, so the new image has exactly the target size.
  */
-class EffectResizeBfit extends AbstractEffect
+class EffectResizeBfit extends Effect
 {
     protected $Position;
     protected $TargetSize;

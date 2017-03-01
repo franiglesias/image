@@ -11,7 +11,7 @@ use Milhojas\Image\Values\Coordinates;
 /**
  * Resize an image to a given target size scaling proportionally and filling it completely.
  */
-class EffectResizeFill extends AbstractEffect
+class EffectResizeFill extends Effect
 {
     protected $Cropper;
     protected $TargetSize;

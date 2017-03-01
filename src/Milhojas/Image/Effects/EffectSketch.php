@@ -9,7 +9,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
  *
  * @author Fran Iglesias
  */
-class EffectSketch extends AbstractEffect
+class EffectSketch extends Effect
 {
     public function __construct()
     {

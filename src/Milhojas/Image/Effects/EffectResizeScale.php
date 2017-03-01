@@ -9,7 +9,7 @@ use Milhojas\Image\Interfaces\ImageInterface;
 /**
  * Scales image without keeping aspect ratio.
  */
-class EffectResizeScale extends AbstractEffect
+class EffectResizeScale extends Effect
 {
     protected $TargetSize;
     protected $Canvas;

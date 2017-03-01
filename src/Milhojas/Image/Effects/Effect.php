@@ -4,7 +4,7 @@ namespace Milhojas\Image\Effects;
 
 use Milhojas\Image\Interfaces\ImageInterface;
 
-abstract class AbstractEffect
+abstract class Effect
 {
     protected $intensity;
     protected $maxIntensity = 255;

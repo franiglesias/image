@@ -8,7 +8,7 @@ use Milhojas\Image\Values\Color;
 /**
  * Rotates an image.
  */
-class EffectRotate extends AbstractEffect
+class EffectRotate extends Effect
 {
     protected $degrees;
 
