@@ -4,6 +4,8 @@ namespace Milhojas\Image\Services;
 
 use Milhojas\Image\Values\Coordinates;
 use Milhojas\Image\Values\Size;
+use Milhojas\Image\Values\Canvas;
+use Milhojas\Image\Interfaces\ImageInterface;
 
 /**
  * Crops an image to a given size, from given coordinates.
@@ -25,7 +27,7 @@ class CropService
     /**
      * @param ImageInterface $image
      *
-     * @return Canvas with cropped image
+     * @return Canvas for cropped image
      */
     public function crop($image)
     {
