@@ -2,6 +2,9 @@
 
 namespace Milhojas\Image\Values;
 
+/**
+ * Defines a color, that could have opacity.
+ */
 class Color
 {
     const TRANSPARENT = 127;
@@ -17,11 +20,15 @@ class Color
     private $alpha;
     private $color;
 
+    /**
+     * @param string $hex
+     * @param int    $opacity
+     */
     public function __construct($hex, $opacity = 1)
     {
         try {
             $this->hex = $this->validate($hex);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
         $this->alpha = $this->opacityToAlpha($opacity);
@@ -42,18 +49,25 @@ class Color
             $hex = substr($hex, 1);
         }
         if (preg_match('/[^0-9a-fA-F]/', $hex)) {
-            throw new InvalidArgumentException(sprintf('%s is not a valid color definition.', $hex), 1);
+            throw new \InvalidArgumentException(sprintf('%s is not a valid color definition.', $hex), 1);
         }
         if (strlen($hex) === 3) {
             $hex = $this->convert3to6($hex);
         }
         if (strlen($hex) !== 6) {
-            throw new InvalidArgumentException(sprintf('%s is not a valid color definition.', $hex), 1);
+            throw new \InvalidArgumentException(sprintf('%s is not a valid color definition.', $hex), 1);
         }
 
         return $hex;
     }
 
+    /**
+     * Convert a three digit color hex color to standard six zdigit.
+     *
+     * @param string $hex
+     *
+     * @return string the 6-digit color code
+     */
     private function convert3to6($hex)
     {
         return $hex{0}
@@ -64,6 +78,9 @@ class Color
         .$hex{2};
     }
 
+    /**
+     * Computes the color valur for GD.
+     */
     private function color()
     {
         return $this->alpha * self::ALPHA
@@ -76,26 +93,41 @@ class Color
         return $this->hex;
     }
 
+    /**
+     * @return int The color valur to use with GD functions
+     */
     public function get()
     {
         return $this->color;
     }
 
+    /**
+     * @return int The blue component
+     */
     public function blue()
     {
         return $this->blue;
     }
 
+    /**
+     * @return int The red component
+     */
     public function red()
     {
         return $this->red;
     }
 
+    /**
+     * @return int The green component
+     */
     public function green()
     {
         return $this->green;
     }
 
+    /**
+     * @return int The alpha or transparency
+     */
     public function alpha()
     {
         return $this->alpha;

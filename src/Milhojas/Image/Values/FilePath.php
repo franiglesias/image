@@ -13,7 +13,7 @@ class FilePath implements FilePathInterface
         try {
             $this->isValidPath($path);
             $this->path = $path;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }

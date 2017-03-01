@@ -1,6 +1,6 @@
 <?php
 
-use Milhojas\Image\Models\Image;
+namespace Milhojas\Image\Models;
 
 class NullImage extends Image
 {

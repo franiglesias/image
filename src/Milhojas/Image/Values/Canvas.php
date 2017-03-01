@@ -2,9 +2,20 @@
 
 namespace Milhojas\Image\Values;
 
+/**
+ * Represents the canvas that contains an image.
+ */
 class Canvas
 {
+    /**
+     * @var resource
+     */
     private $resource;
+    /**
+     * The width and height of the canvas.
+     *
+     * @var Size
+     */
     private $Size;
 
     public function __construct(Size $Size, Color $Color)

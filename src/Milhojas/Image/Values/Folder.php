@@ -12,7 +12,7 @@ class Folder
             $this->createIfDoesNotExist($path);
             $this->writableCheck($path);
             $this->path = $path;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -28,14 +28,14 @@ class Folder
             return;
         }
         if (!mkdir($path, 0777, true)) {
-            throw new RuntimeException(sprintf("Can\'t create the needed directory %s.", $path));
+            throw new \RuntimeException(sprintf("Can\'t create the needed directory %s.", $path));
         }
     }
 
     private function writableCheck($path)
     {
         if (!is_writable($path)) {
-            throw new RuntimeException(sprintf("Can\'t write in directory %s.", $path));
+            throw new \RuntimeException(sprintf("Can\'t write in directory %s.", $path));
         }
     }
 }
