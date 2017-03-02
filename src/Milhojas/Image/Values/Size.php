@@ -4,6 +4,8 @@ namespace Milhojas\Image\Values;
 
 class Size
 {
+    const CHANNELS = 4;
+    const FACTOR = 1.5;
     private $width;
     private $height;
 
@@ -23,6 +25,12 @@ class Size
         return $this->height;
     }
 
+    public function memory()
+    {
+        $memory = $this->width * $this->height * self::CHANNELS * self::FACTOR;
+
+        return $memory;
+    }
     /**
      * Computes proportional size to fill the $Target Size.
      *

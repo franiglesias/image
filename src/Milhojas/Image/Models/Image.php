@@ -5,22 +5,30 @@ namespace Milhojas\Image\Models;
 use Milhojas\Image\Formats\GifImage;
 use Milhojas\Image\Formats\PngImage;
 use Milhojas\Image\Interfaces\ImageInterface;
+use Milhojas\Image\Interfaces\FilePathInterface;
 use Milhojas\Image\Values\Canvas;
 use Milhojas\Image\Values\FilePath;
 use Milhojas\Image\Values\NullCanvas;
+use Milhojas\Image\Values\NewFilePath;
 use Milhojas\Image\Values\Size;
 use Milhojas\Image\Effects\Effect;
 use Milhojas\Image\Formats\JpgImage;
+use Milhojas\Image\Exception\UnsupportedImageType;
 
-class Image implements ImageInterface
+/**
+ * Represents an Image.
+ */
+abstract class Image implements ImageInterface
 {
     protected $image;
     protected $Size;
+    protected $Path;
 
-    public function __construct(Canvas $Canvas)
+    public function __construct(Canvas $Canvas, FilePath $Path = null)
     {
         $this->image = $Canvas->get();
         $this->Size = $Canvas->size();
+        $this->Path = $Path;
     }
 
     public function __destruct()
@@ -37,32 +45,42 @@ class Image implements ImageInterface
      */
     public static function fromPath($file)
     {
-        try {
-            $Path = new FilePath($file);
-            $info = getimagesize($Path->get());
-            $Image = new self(new NullCanvas());
+        $Path = new FilePath($file);
+        $info = getimagesize($Path->get());
+        $image = static::imageByType($info['mime'], $Path);
+        $image->read();
 
-            return $Image->imageByType($info['mime'], $Path, $Image);
-        } catch (\Exception $e) {
-            return new NullImage();
-        }
+        return $image;
     }
 
-    private function imageByType($type, $Path, $Image)
+    public function duplicateToPath($file)
+    {
+        $Copy = clone $this;
+        $Copy->writeAs(new NewFilePath($file));
+
+        return $Copy;
+    }
+
+    public function writeAs(FilePathInterface $Path)
+    {
+        if (!is_resource($this->get())) {
+            $this->read();
+        }
+        $this->Path = $Path;
+        $this->write();
+    }
+
+    private static function imageByType($type, $Path)
     {
         switch ($type) {
             case 'image/jpeg':
-                return new JpgImage($Image, $Path);
-                break;
+                return new JpgImage(new NullCanvas(), $Path);
             case 'image/png':
-                return new PngImage($Image, $Path);
-                break;
+                return new PngImage(new NullCanvas(), $Path);
             case 'image/gif':
-                return new GifImage($Image, $Path);
-                break;
-            default:
-                break;
+                return new GifImage(new NullCanvas(), $Path);
         }
+        throw UnsupportedImageType::fromType($type, $Path->get());
     }
 
     protected function readSize()
@@ -86,6 +104,11 @@ class Image implements ImageInterface
         return $this->image;
     }
 
+    /**
+     * The size of the image.
+     *
+     * @return Size
+     */
     public function size()
     {
         $this->Size = $this->readSize();
@@ -103,19 +126,9 @@ class Image implements ImageInterface
         $effect->apply($this);
     }
 
-    /**
-     * Implemented in decorators.
-     */
-    public function read()
-    {
-    }
+    abstract public function read();
 
-    /**
-     * Implemented in decorators.
-     */
-    public function write()
-    {
-    }
+    abstract public function write();
 
     public function path()
     {

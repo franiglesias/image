@@ -2,15 +2,16 @@
 
 namespace Milhojas\Image\Formats;
 
-use Milhojas\Image\Abstracts\AbstractImageFileDecorator;
+use Milhojas\Image\Exception\ImageFileNotWritable;
+use Milhojas\Image\Models\Image;
 
-class PngImage extends AbstractImageFileDecorator
+class PngImage extends Image
 {
     protected $quality = 0;
 
     public function read()
     {
-        $this->Image->set(imagecreatefrompng($this->Path->get()));
+        $this->set(imagecreatefrompng($this->Path->get()));
     }
 
     public function write()
@@ -18,7 +19,7 @@ class PngImage extends AbstractImageFileDecorator
         $this->quality = 0;
         $this->Path->setExtension('png');
         if (!imagepng($this->Image->get(), $this->Path->get(), $this->quality)) {
-            throw new \RuntimeException(sprintf('Can not write image file %s', $this->Path->get()), 1);
+            throw ImageFileNotWritable::fromPath($this->Path->get());
         }
     }
 

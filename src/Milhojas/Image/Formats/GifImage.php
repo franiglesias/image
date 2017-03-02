@@ -2,20 +2,21 @@
 
 namespace Milhojas\Image\Formats;
 
-use Milhojas\Image\Abstracts\AbstractImageFileDecorator;
+use Milhojas\Image\Exception\ImageFileNotWritable;
+use Milhojas\Image\Models\Image;
 
-class GifImage extends AbstractImageFileDecorator
+class GifImage extends Image
 {
     public function read()
     {
-        $this->Image->get(imagecreatefromgif($this->Path->get()));
+        $this->get(imagecreatefromgif($this->Path->get()));
     }
 
     public function write()
     {
         $this->Path->setExtension('gif');
         if (!imagegif($this->Image->get(), $this->Path->get())) {
-            throw new \RuntimeException(sprintf('Can not write image file %s', $this->Path->get()), 1);
+            throw ImageFileNotWritable::fromPath($this->Path->get());
         }
     }
 
